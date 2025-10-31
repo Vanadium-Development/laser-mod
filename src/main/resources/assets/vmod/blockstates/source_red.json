@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "vmod:block/source_red",
+      "x": 0,
+      "y": 0
+    },
+    "facing=east": {
+      "model": "vmod:block/source_red",
+      "x": 0,
+      "y": 90
+    },
+    "facing=south": {
+      "model": "vmod:block/source_red",
+      "x": 0,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "vmod:block/source_red",
+      "x": 0,
+      "y": 270
+    },
+    "facing=up": {
+      "model": "vmod:block/source_red",
+      "x": 270,
+      "y": 0
+    },
+    "facing=down": {
+      "model": "vmod:block/source_red",
+      "x": 90,
+      "y": 0
+    }
+  }
+}

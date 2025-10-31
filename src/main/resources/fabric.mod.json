@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "vanadium_light",
+  "version": "${version}",
+  "name": "Vanadium Light",
+  "description": "Optics and Scientific Light Sources",
+  "authors": [],
+  "contact": {},
+  "license": "unlicense",
+  "icon": "assets/vmod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "dev.vanadium.mod.client.VanadiumModDataGenerator"
+    ],
+    "client": [
+      "dev.vanadium.mod.client.VanadiumModClient"
+    ],
+    "main": [
+      "dev.vanadium.mod.VanadiumMod"
+    ]
+  },
+  "mixins": [
+    "vmod.mixins.json",
+    {
+      "config": "vmod.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

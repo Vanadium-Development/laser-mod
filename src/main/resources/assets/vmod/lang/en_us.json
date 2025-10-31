@@ -1,0 +1,8 @@
+{
+  "vmod.inventory.tab": "Optics Mod",
+  "block.vmod.source_red": "Red Laser Source",
+  "block.vmod.source_blue": "Blue Laser Source",
+  "block.vmod.source_green": "Green Laser Source",
+  "block.vmod.source_white": "White Laser Source",
+  "block.vmod.mirror": "Mirror"
+}
