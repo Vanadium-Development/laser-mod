@@ -19,16 +19,6 @@
       "model": "vmod:block/mirror",
       "x": 0,
       "y": 270
-    },
-    "facing=up": {
-      "model": "vmod:block/mirror",
-      "x": 270,
-      "y": 0
-    },
-    "facing=down": {
-      "model": "vmod:block/mirror",
-      "x": 90,
-      "y": 0
     }
   }
 }

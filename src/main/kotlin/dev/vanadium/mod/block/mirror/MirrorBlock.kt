@@ -33,6 +33,6 @@ class MirrorBlock : AbstractModBlock(
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val player = ctx.player
         val lookDirection = player?.horizontalFacing ?: Direction.NORTH
-        return defaultState.with(Properties.FACING, lookDirection)
+        return defaultState.with(Properties.FACING, lookDirection.opposite)
     }
 }
