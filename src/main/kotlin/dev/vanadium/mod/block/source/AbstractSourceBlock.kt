@@ -43,7 +43,7 @@ abstract class AbstractSourceBlock(
         sourcePos: BlockPos,
         notify: Boolean
     ) {
-        LightPathHandler.recalculateLightPath(pos, color, state[FACING])
+        LightPathHandler.recalculateLightPath(pos, color, state[FACING], world)
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify)
     }
 

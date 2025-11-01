@@ -51,13 +51,13 @@ class LightPathRenderer(
             pMat,
             -beamSize / 2f, length, -beamSize / 2f,
             1f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
         buffer.vert(
             pMat,
             beamSize / 2, length, -beamSize / 2f,
             0f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
         buffer.vert(
             pMat,
@@ -84,13 +84,13 @@ class LightPathRenderer(
             pMat,
             beamSize / 2, length, -beamSize / 2f,
             1f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
         buffer.vert(
             pMat,
             beamSize / 2, length, beamSize / 2,
             0f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
         buffer.vert(
             pMat,
@@ -129,13 +129,13 @@ class LightPathRenderer(
             pMat,
             -beamSize / 2, length, beamSize / 2,
             0f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0,
+            lightColor.r, lightColor.g, lightColor.b, 240,
         )
         buffer.vert(
             pMat,
             -beamSize / 2, length, -beamSize / 2,
             1f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
     }
 
@@ -162,20 +162,21 @@ class LightPathRenderer(
             pMat,
             beamSize / 2, length, beamSize / 2,
             0f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
         buffer.vert(
             pMat,
             -beamSize / 2, length, beamSize / 2,
             1f, 1f, normal,
-            lightColor.r, lightColor.g, lightColor.b, 0
+            lightColor.r, lightColor.g, lightColor.b, 240
         )
     }
 
-    fun renderLightSegment(
+    fun <T : BlockEntity> renderLightSegment(
         lightSegment: LightSegment,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
+        entity: T
     ) {
         matrices.push()
 
@@ -187,7 +188,9 @@ class LightPathRenderer(
         val center = Vector3f(.5f, .5f, .5f)
         val offset = Vector3f(direction.offsetX.toFloat(), direction.offsetY.toFloat(), direction.offsetZ.toFloat())
             .mul(0.5f)
-        val location = center.add(offset)
+        val blockOffset = lightSegment.origin.subtract(entity.pos)
+        val location = center.add(offset).add(blockOffset.x.toFloat(), blockOffset.y.toFloat(), blockOffset.z.toFloat())
+
 
         matrices.translate(location.x, location.y, location.z)
         matrices.multiply(direction.rotationQuaternion)
@@ -202,17 +205,25 @@ class LightPathRenderer(
         matrices.pop()
     }
 
+    private fun <T : BlockEntity> renderLightPathRecursively(
+        entity: T,
+        segment: LightSegment,
+        matrices: MatrixStack,
+        vertexConsumer: VertexConsumerProvider
+    ) {
+        renderLightSegment(segment, matrices, vertexConsumer, entity)
+        segment.next.forEach { seg ->
+            renderLightPathRecursively(entity, seg, matrices, vertexConsumer)
+        }
+    }
+
     fun <T : BlockEntity> forceRenderFor(
         entity: T,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider
     ) {
         val lightPath = LightPathHandler.LIGHT_PATHS[entity.pos] ?: return
-        renderLightSegment(lightPath, matrices, vertexConsumers)
-
-        lightPath.next.forEach {
-            renderLightSegment(it, matrices, vertexConsumers)
-        }
+        renderLightPathRecursively(entity, lightPath, matrices, vertexConsumers)
     }
 
     fun <T : BlockEntity> renderFor(

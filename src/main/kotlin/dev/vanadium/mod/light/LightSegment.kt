@@ -4,9 +4,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
 data class LightSegment(
-    val origin: BlockPos,
-    val direction: Direction,
-    val length: Float,
-    val color: LightColor,
-    val next: List<LightSegment>
+    var origin: BlockPos,
+    var direction: Direction,
+    var length: Float,
+    var color: LightColor,
+    val next: MutableList<LightSegment>
 )
