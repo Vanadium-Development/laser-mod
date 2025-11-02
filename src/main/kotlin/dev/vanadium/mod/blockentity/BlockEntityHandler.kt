@@ -1,6 +1,7 @@
 package dev.vanadium.mod.blockentity
 
 import dev.vanadium.mod.block.BlockHandler
+import dev.vanadium.mod.blockentity.amplifier.AmplifierBlockEntity
 import dev.vanadium.mod.blockentity.mirror.MirrorBlockEntity
 import dev.vanadium.mod.blockentity.source.LightSourceBlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -11,6 +12,7 @@ import net.minecraft.util.Identifier
 object BlockEntityHandler {
     lateinit var LIGHT_SOURCE_TYPE: BlockEntityType<LightSourceBlockEntity>
     lateinit var MIRROR_TYPE: BlockEntityType<MirrorBlockEntity>
+    lateinit var AMPLIFIER_TYPE: BlockEntityType<AmplifierBlockEntity>
 
     fun <T : BlockEntityType<*>> register(
         path: String,
@@ -29,6 +31,12 @@ object BlockEntityHandler {
             "mirror", BlockEntityType.Builder.create(
                 { pos, state -> MirrorBlockEntity(pos, state) },
                 BlockHandler.MIRROR
+            ).build()
+        )
+        AMPLIFIER_TYPE = register(
+            "amp", BlockEntityType.Builder.create(
+                { pos, state -> AmplifierBlockEntity(pos, state) },
+                BlockHandler.AMPLIFIER_BLCOK
             ).build()
         )
     }

@@ -1,7 +1,7 @@
 package dev.vanadium.mod.block.mirror
 
 import com.mojang.serialization.MapCodec
-import dev.vanadium.mod.block.AbstractModBlock
+import dev.vanadium.mod.block.common.AbstractModBlockWithEntity
 import dev.vanadium.mod.blockentity.mirror.MirrorBlockEntity
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.BlockState
@@ -12,9 +12,8 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.BlockView
 
-class MirrorBlock : AbstractModBlock(
+class MirrorBlock : AbstractModBlockWithEntity(
     "mirror",
     AbstractBlock.Settings.create()
         .nonOpaque()

@@ -20,7 +20,6 @@ class LightSourceBlockEntity(
             world: World,
             pos: BlockPos,
             state: BlockState,
-            blockEntity: LightSourceBlockEntity,
             color: LightColor
         ) {
             LightPathHandler.recalculateLightPath(pos, color, state[Properties.FACING], world)

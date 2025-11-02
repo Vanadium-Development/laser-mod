@@ -4,5 +4,6 @@
   "block.vmod.source_blue": "Blue Laser Source",
   "block.vmod.source_green": "Green Laser Source",
   "block.vmod.source_white": "White Laser Source",
-  "block.vmod.mirror": "Mirror"
+  "block.vmod.mirror": "Mirror",
+  "block.vmod.amp": "Light Amplifier"
 }

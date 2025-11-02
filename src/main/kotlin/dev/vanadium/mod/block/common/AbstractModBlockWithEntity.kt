@@ -1,6 +1,5 @@
-package dev.vanadium.mod.block
+package dev.vanadium.mod.block.common
 
-import dev.vanadium.mod.light.LightPathHandler
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -14,12 +13,11 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
-abstract class AbstractModBlock(
+abstract class AbstractModBlockWithEntity(
     val id: String,
     settings: Settings
 ) : BlockWithEntity(settings) {
-
-    companion object {
+    companion object Companion {
         val FACING: DirectionProperty = Properties.FACING
         val POWERED: BooleanProperty = Properties.POWERED
     }

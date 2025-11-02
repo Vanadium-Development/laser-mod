@@ -1,5 +1,6 @@
 package dev.vanadium.mod.light
 
+import dev.vanadium.mod.blockentity.amplifier.AmplifierBlockEntity
 import dev.vanadium.mod.blockentity.mirror.MirrorBlockEntity
 import net.minecraft.block.ShapeContext
 import net.minecraft.state.property.Properties
@@ -49,9 +50,9 @@ object LightPathHandler {
         val reflection = facing.rotateYClockwise()
 
         return when (incoming.opposite) {
-            facing -> reflection
+            facing     -> reflection
             reflection -> facing
-            else -> null
+            else       -> null
         }
     }
 
@@ -87,15 +88,47 @@ object LightPathHandler {
         segment.endPower = calculatePowerAfter(power, segment.length)
 
         val entity = world.getBlockEntity(hit.blockPos) ?: return segment
-        if (entity !is MirrorBlockEntity) return segment
-        val nextDirection = mirrorReflect(direction, entity.cachedState[Properties.FACING]) ?: return segment
-        segment.length += .5f // Mirrors are at the center of the block model
+        val facing = entity.cachedState[Properties.FACING]
 
-        val nextInitialPower = calculatePowerAfter(power, segment.length)
-        segment.endPower = nextInitialPower
-        segment.next.add(
-            nextSegment(entity.pos, nextDirection, world, sourceColor, LightSourceType.MIRROR, power = nextInitialPower)
-        )
+        // Handle Mirror
+        if (entity is MirrorBlockEntity) {
+            val nextDirection = mirrorReflect(direction, facing) ?: return segment
+            segment.length += .5f // Mirrors are at the center of the block model
+
+            val nextInitialPower = calculatePowerAfter(power, segment.length)
+            segment.endPower = nextInitialPower
+            segment.next.add(
+                nextSegment(
+                    entity.pos,
+                    nextDirection,
+                    world,
+                    sourceColor,
+                    LightSourceType.MIRROR,
+                    power = nextInitialPower
+                )
+            )
+            return segment
+        }
+
+        // Handle Light Amplification
+        if (entity is AmplifierBlockEntity) {
+            if (direction != facing.opposite)
+                return segment
+
+            val nextDirection = direction
+            val nextInitialPower = 1f
+            segment.next.add(
+                nextSegment(
+                    entity.pos,
+                    nextDirection,
+                    world,
+                    sourceColor,
+                    LightSourceType.AMPLIFIER,
+                    power = nextInitialPower
+                )
+            )
+            return segment
+        }
 
         return segment
     }

@@ -1,6 +1,5 @@
-package dev.vanadium.mod.block.source
+package dev.vanadium.mod.block.common
 
-import dev.vanadium.mod.block.AbstractModBlock
 import dev.vanadium.mod.blockentity.BlockEntityHandler
 import dev.vanadium.mod.blockentity.source.LightSourceBlockEntity
 import dev.vanadium.mod.light.LightColor
@@ -21,7 +20,7 @@ import net.minecraft.world.World
 abstract class AbstractSourceBlock(
     id: String,
     val color: LightColor
-) : AbstractModBlock(
+) : AbstractModBlockWithEntity(
     id,
     Settings
         .create()
@@ -52,13 +51,14 @@ abstract class AbstractSourceBlock(
         state: BlockState
     ): BlockEntity = LightSourceBlockEntity(pos, state)
 
+    @Suppress("unchecked_cast")
     override fun <T : BlockEntity?> getTicker(
         world: World,
         state: BlockState,
         type: BlockEntityType<T>
     ): BlockEntityTicker<T> {
         return validateTicker(type, BlockEntityHandler.LIGHT_SOURCE_TYPE, { world, pos, state, entity ->
-            LightSourceBlockEntity.tick(world, pos, state, entity, color)
-        }) ?: throw IllegalStateException("Could not register ticker for light sources")
+            LightSourceBlockEntity.Companion.tick(world, pos, state, color)
+        }) ?: throw RuntimeException("Could not initialize ticker for light source block entity")
     }
 }

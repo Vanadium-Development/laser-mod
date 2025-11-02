@@ -211,15 +211,15 @@ class LightPathRenderer(
 
         val location = center
         when (lightSegment.sourceType) {
-            LightSourceType.SOURCE_BLOCK -> center.add(directionOffset)
+            LightSourceType.SOURCE_BLOCK, LightSourceType.AMPLIFIER -> center.add(directionOffset)
                 .add(relativeBlockLocationVec)
 
-            LightSourceType.MIRROR       -> center.add(relativeBlockLocationVec)
+            LightSourceType.MIRROR                                  -> center.add(relativeBlockLocationVec)
         }
 
         val length = when (lightSegment.sourceType) {
-            LightSourceType.SOURCE_BLOCK -> lightSegment.length
-            LightSourceType.MIRROR       -> lightSegment.length + .5f
+            LightSourceType.SOURCE_BLOCK, LightSourceType.AMPLIFIER -> lightSegment.length
+            LightSourceType.MIRROR                                  -> lightSegment.length + .5f
         }
 
         matrices.translate(location.x, location.y, location.z)

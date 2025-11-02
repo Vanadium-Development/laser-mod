@@ -1,11 +1,11 @@
-package dev.vanadium.mod.blockentity.mirror
+package dev.vanadium.mod.blockentity.amplifier
 
 import dev.vanadium.mod.blockentity.BlockEntityHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.math.BlockPos
 
-class MirrorBlockEntity(
+class AmplifierBlockEntity(
     pos: BlockPos,
     state: BlockState
-) : BlockEntity(BlockEntityHandler.MIRROR_TYPE, pos, state)
+) : BlockEntity(BlockEntityHandler.AMPLIFIER_TYPE, pos, state)
